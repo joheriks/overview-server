@@ -31,8 +31,9 @@
 
     <h6>@m("create")</h6>
     <ul class="import-nav">
-      <li>@linkTo(m("create.files"), routes.FileImportController.new_())</li>
-      <li>@linkTo(m("create.csv"), routes.CsvUploadController.new_())</li>
+      <li><span class="text-danger small">We've disabled uploads as we're upgrading a server. If you need to upload, please refresh this page every few minutes.</span></li>
+      <li><span class="text-muted" style="cursor: pointer;">@m("create.files")</span></li>
+      <li><span class="text-muted" style="cursor: pointer;">@m("create.csv")</span></li>
       <li>@linkToHtml(Html(m("create.documentCloud_html")), routes.DocumentCloudProjectController.index())</li>
     </ul>
 
