@@ -3,15 +3,31 @@
 
 // We put all major layout stuff in one file, to match the one HTML template
 
-#tree-app-left {
-  .box-sizing(border-box);
+#main {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  width: 150%;
+  height: 100%;
+  .display-flex();
+
   left: 0;
-  width: 50%;
+  .transition(left .35s ease);
+
+  &.document-selected {
+    left: -50%;
+  }
+}
+
+#view-pane, #document-list-pane, #document-pane {
+  .box-sizing(border-box);
+  height: 100%;
   border: 5px solid transparent;
+  width: 100% / 3;
+  flex: 0 0 auto;
+}
+
+#view-pane {
   z-index: 2; // hover descriptions go above everything
+  position: relative;
   .display-flex();
   .flex-direction-column();
 
@@ -19,7 +35,7 @@
     .flex(0 0 auto);
   }
 
-  #tree-app-search-and-tags {
+  #search-and-tags {
     border-bottom: 5px solid transparent;
     .display-flex();
     .flex-wrap(wrap);
@@ -29,18 +45,13 @@
       margin: 5px 5px 0;
     }
 
-    #tree-app-search {  
-      min-width: 10em;
-      width: 16em;
-    }
-
-    #tree-app-tags {
+    #select-search, #select-tags {  
       min-width: 10em;
       width: 16em;
     }
   }
 
-  #tree-app-view {
+  #view {
     .flex(1 1 auto);
     position: relative;
 
@@ -67,28 +78,24 @@
   }
 }
 
-#tree-app-right {
-  .box-sizing(border-box);
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 50%;
-  bottom: 0;
-  margin: 5px;
+#document-list-pane {
+  height: 100%;
   .display-flex();
   .flex-direction-column();
 
-  #tree-app-right-top {
+  #document-list-title-row {
     .flex(0 0 auto);
     .display-flex();
 
     #document-list-title { .flex(1 1 auto); }
-    #tree-app-document-list-tags { .flex(0 0 auto); }
+    #document-list-tags { .flex(0 0 auto); }
   }
 
-  #tree-app-right-bottom {
+  #document-list {
     .flex(1 1 auto);
-    position: relative;
-    overflow: hidden;
+    overflow: auto;
   }
+}
+
+#document-pane {
 }

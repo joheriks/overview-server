@@ -1,126 +1,152 @@
-@import "../../variables.less";
-@import "../../mixins.less";
-@import "_variables.less";
+#document-pane #document-tags {
+  position: absolute;
+  right: 0;
+}
 
-// The preview-a-single-document view
-#document-current article {
-  .document[data-document-type=twitter] {
-    overflow: auto;
+#document {
+  .box-sizing(border-box);
+  height: 100%;
+  overflow: hidden;
+  .display-flex();
+  .flex-direction-column();
+
+  .document-nav-and-title {
+    margin: 0 auto;
+    padding: .5em 0 0;
   }
 
-  iframe:not(.twitter-tweet) {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    min-height: 200px; // so the page within renders properly
-    border: none;
-    padding: 0;
-    margin: 0;
+  .document-nav {
+    text-align: center;
+
+    h4 {
+      display: inline;
+      font: inherit;
+      line-height: inherit;
+      margin: 0;
+      padding: 0;
+    }
+
+    a.previous {
+      padding-right: 1em;
+    }
+
+    a.next {
+      padding-left: 1em;
+    }
+
+    // font-awesome puts the chevron on the baseline; we want it descending
+    i { vertical-align: middle; }
+    // Now the on-hover underlines look terrible; stop underlining the space between
+    a { text-decoration: none; }
+    a:hover span { text-decoration: underline; }
   }
 
-  div.document, div.text-view {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    bottom: 0;
+  .disabled {
+    .text-muted;
+    cursor: default;
+    text-decoration: none;
   }
 
-  &.showing-document div.document { display: block; }
-  &.showing-text div.text-view { .display-flex(); .flex-direction-column(); }
+  header {
+    .flex(0 0 auto);
+  }
 
-  div.text-view div.text {
+  article {
+    position: relative;
     .flex(1 1 auto);
   }
 
-  div.find {
-    .flex(0 0 auto);
-    padding: .2em;
+  div.preferences {
+    float: right;
+    line-height: 2em;
+
+    .switch-text-mode {
+      display: inline-block;
+
+      input { display: none; }
+
+      .text-off {
+        border: 1px solid #ccc;
+        border-right: 0;
+        border-bottom-left-radius: @border-radius-base;
+        border-top-left-radius: @border-radius-base;
+      }
+      .text-on {
+        border: 1px solid #ccc;
+        border-left: 0;
+        border-bottom-right-radius: @border-radius-base;
+        border-top-right-radius: @border-radius-base;
+      }
+
+      .text-off, .text-on {
+        display: inline-block;
+        background: white;
+        color: @text-muted;
+        text-decoration: none;
+        padding: 0 .6em;
+        cursor: pointer;
+      }
+
+      input:not(:checked) + .text-off, input:checked + .text-off + .text-on {
+        text-shadow: 0 0 2px @text-color;
+        background-color: @brand-primary;
+        color: white;
+      }
+    }
+
+    .options {
+      display: inline-block;
+      position: relative;
+      top: 2px; // 1px for the .switch-text-mode border; another 1px to look good.
+
+      a.dropdown-toggle {
+        display: block;
+        font-size: 1.25em;
+        padding: 0 .5em;
+        text-decoration: none;
+      }
+
+      .dropdown-menu label.checkbox {
+        // margin is bad because clicking on it doesn't change the checkbox.
+        // use padding instead.
+        margin: 0;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      label {
+        font: inherit;
+        cursor: pointer;
+      }
+    }
+  }
+
+  h2 {
     text-align: center;
-    background-color: @body-bg-dark;
-    border-top: 1px solid @table-border-color;
-
-    * {
-      display: inline;
-    }
-
-    i {
-      font-size: 1em;
-    }
-
-    a {
-      padding: 0 .5em;
-    }
-  }
-
-  .twitter-tweet-container {
-    margin: 10px auto;
-    width: 500px; /* Twitter default */
-  }
-
-  blockquote.twitter-tweet {
-    /* This should hide until either Twitter replaces it, or Twitter *fails* to replace it. */
-    display: none;
-  }
-
-  p.source + pre, p.source + iframe {
-    border-bottom: 34px solid white; /* p.source padding + 1 line */
-  }
-
-  .text-view .text {
-    .display-flex();
-    .flex-direction-column();
-    background: #f8f8f8;
-    border-top: 1px solid #ccc;
-    overflow: auto;
-
-    .only-text-available {
-      color: @brand-danger;
-      border-bottom: 1px solid #ccc;
-      padding: 10px;
-      margin: 0;
-    }
-
-    pre {
-      .flex(1 1 auto);
-      padding: 10px;
-      // undo Bootstrap stuff
-      border: 0;
-      margin: 0;
-      background: transparent;
-
-      &.wrap {
-        white-space: pre-wrap;
-      }
-      &:not(.wrap) {
-        // undo bootstrap code.less
-        word-break: normal;
-        word-wrap: normal;
-      }
-    }
-  }
-
-  em.highlight {
-    font-style: normal;
+    font: inherit;
     font-weight: bold;
-    background: @highlight;
+    margin: 0;
+    padding: .5em 0;
+  }
 
-    &.current {
-      box-shadow: 0 0 5px 1px @brand-primary;
-      border-radius: @border-radius-small;
+  div.tags-and-preferences {
+    .display-flex();
+    .flex-wrap(wrap);
+    .flex-align-items(flex-start);
+
+    div.tag {
+      .flex(0 0 auto);
+      .tag();
+      display: inline-block;
+      margin: 0 .3em .3em 0;
+    }
+
+    div.document-display-preferences {
+      .flex(1 0 auto);
     }
   }
 
-  div.missing-plugin {
-    text-align: center;
-    margin-top: 3em;
-
-    i {
-      font-size: 10em;
-      text-decoration: none;
-    }
+  div.tags {
+    .tag-list-2d();
   }
 }

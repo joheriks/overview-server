@@ -42,23 +42,22 @@ define [
       """)
 
       header: _.template("""
-        <div class="document-nav">
-          <a href="#" class="previous <%= cursorIndex ? '' : 'disabled' %>"><i class="icon icon-chevron-left"></i> <span><%- t('previous') %></span></a>
-          <h4><%= t('position_html', cursorIndex + 1, nDocuments) %></h4>
-          <a href="#" class="next <%= cursorIndex + 1 < nDocuments ? '' : 'disabled' %>"><span><%- t('next') %></span> <i class="icon icon-chevron-right"></i></a>
+        <div class="document-nav-and-title">
+          <div class="document-nav">
+            <a href="#" class="previous <%= cursorIndex ? '' : 'disabled' %>"><i class="icon icon-chevron-left"></i> <span><%- t('previous') %></span></a>
+            <h4><%= t('position_html', cursorIndex + 1, nDocuments) %></h4>
+            <a href="#" class="next <%= cursorIndex + 1 < nDocuments ? '' : 'disabled' %>"><span><%- t('next') %></span> <i class="icon icon-chevron-right"></i></a>
+          </div>
+          <h2><%- title %></h2>
         </div>
-        <h2><%- title %></h2>
-        <ul class="tags">
+        <div class="tags-and-preferences">
           <% _.each(tags, function(tag) { %>
-            <li class="tag" data-cid="<%- tag.cid %>">
-              <div class="<%- tag.getClass() %>" style="<%- tag.getStyle() %>">
-                <span class="name"><%- tag.get('name') %></span>
-              </div>
-            </li>
+            <div class="<%- tag.getClass() %>" style="<%- tag.getStyle() %>">
+              <span class="name"><%- tag.get('name') %></span>
+            </div>
           <% }); %>
-        </ul>
-        <div class="keywords"><%- (document && document.get('description')) ? t('description', document.get('description')) : t('description.empty') %></div>
-        <div class="document-display-preferences"></div>
+          <div class="document-display-preferences"></div>
+        </div>
       """)
 
     initialize: ->

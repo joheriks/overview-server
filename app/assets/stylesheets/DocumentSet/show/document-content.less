@@ -1,0 +1,123 @@
+// The preview-a-single-document view
+#document article {
+  height: 100%;
+
+  .document[data-document-type=twitter] {
+    overflow: auto;
+  }
+
+  iframe:not(.twitter-tweet) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 200px; // so the page within renders properly
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  div.document, div.text-view {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+  }
+
+  &.showing-document div.document { display: block; }
+  &.showing-text div.text-view { .display-flex(); .flex-direction-column(); }
+
+  div.text-view div.text {
+    .flex(1 1 auto);
+  }
+
+  div.find {
+    .flex(0 0 auto);
+    padding: .2em;
+    text-align: center;
+    background-color: @body-bg-dark;
+    border-top: 1px solid @table-border-color;
+
+    * {
+      display: inline;
+    }
+
+    i {
+      font-size: 1em;
+    }
+
+    a {
+      padding: 0 .5em;
+    }
+  }
+
+  .twitter-tweet-container {
+    margin: 10px auto;
+    width: 500px; /* Twitter default */
+  }
+
+  blockquote.twitter-tweet {
+    /* This should hide until either Twitter replaces it, or Twitter *fails* to replace it. */
+    display: none;
+  }
+
+  p.source + pre, p.source + iframe {
+    border-bottom: 34px solid white; /* p.source padding + 1 line */
+  }
+
+  .text-view .text {
+    .display-flex();
+    .flex-direction-column();
+    background: #f8f8f8;
+    overflow: auto;
+
+    .only-text-available {
+      color: @brand-danger;
+      border-bottom: 1px solid #ccc;
+      padding: 10px;
+      margin: 0;
+    }
+
+    pre {
+      .flex(1 1 auto);
+      padding: 10px;
+      // undo Bootstrap stuff
+      border: 0;
+      margin: 0;
+      background: transparent;
+
+      &.wrap {
+        white-space: pre-wrap;
+      }
+      &:not(.wrap) {
+        // undo bootstrap code.less
+        word-break: normal;
+        word-wrap: normal;
+      }
+    }
+  }
+
+  em.highlight {
+    font-style: normal;
+    font-weight: bold;
+    background: @highlight;
+
+    &.current {
+      box-shadow: 0 0 5px 1px @brand-primary;
+      border-radius: @border-radius-small;
+    }
+  }
+
+  div.missing-plugin {
+    text-align: center;
+    margin-top: 3em;
+
+    i {
+      font-size: 10em;
+      text-decoration: none;
+    }
+  }
+}

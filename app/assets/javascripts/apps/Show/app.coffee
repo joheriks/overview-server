@@ -99,28 +99,29 @@ define [
 
     _buildHtml: ->
       html = """
-        <div id="tree-app-left">
-          <div id="tree-app-search-and-tags">
-            <div id="tree-app-search"></div>
-            <div id="tree-app-tags"></div>
+        <div id="view-pane">
+          <div id="search-and-tags">
+            <div id="select-search"></div>
+            <div id="select-tags"></div>
           </div>
-          <div id="tree-app-views"></div>
-          <div id="tree-app-view"></div>
+          <div id="views"></div>
+          <div id="view"></div>
         </div>
-        <div id="tree-app-right">
-          <div id="tree-app-right-top">
+        <div id="document-list-pane">
+          <div id="document-list-title-row">
             <div id="document-list-title"></div>
-            <div id="tree-app-document-list-tags">
-              <div id="tree-app-tag-this"></div>
-            </div>
+            <div id="document-list-tags"></div>
           </div>
-          <div id="tree-app-right-bottom">
-            <div id="document-list"></div>
-            <div id="document-current"></div>
+          <div id="document-list"></div>
+        </div>
+        <div id="document-pane">
+          <div id="document-title-row">
+            <div id="document-title"></div>
+            <div id="document-tags"></div>
           </div>
+          <div id="document"></div>
         </div>
-        <div id="transaction-queue-error-monitor">
-        </div>
+        <div id="transaction-queue-error-monitor"></div>
       """
 
       $(@el).html(html)
@@ -128,15 +129,15 @@ define [
       el = (id) -> document.getElementById(id)
 
       main: @el
-      views: el('tree-app-views')
-      view: el('tree-app-view')
-      tags: el('tree-app-tags')
-      search: el('tree-app-search')
+      views: el('views')
+      view: el('view')
+      selectTag: el('select-tags')
+      selectSearch: el('select-search')
       documentList: el('document-list')
       documentListTitle: el('document-list-title')
-      tagThis: el('tree-app-tag-this')
-      documentCursor: el('document-current')
-      document: el('tree-app-document')
+      documentListTags: el('document-list-tags')
+      document: el('document')
+      documentTags: el('document-tags')
       transactionQueueErrorMonitor: el('transaction-queue-error-monitor')
 
     _initializeTransactionQueue: ->
@@ -167,7 +168,7 @@ define [
       els.views.appendChild(controller.el)
 
       new ModeView(el: @el, state: @state)
-      new SearchView(el: els.search, state: @state)
+      new SearchView(el: els.selectSearch, state: @state)
 
       @_listenForRefocus()
       @_listenForResize(els.document)
@@ -175,11 +176,12 @@ define [
       tag_list_controller
         state: @state
         tags: @state.tags
-        tagSelectEl: els.tags
-        tagThisEl: els.tagThis
+        tagSelectEl: els.selectTag
+        documentListTagsEl: els.documentListTags
+        documentTagsEl: els.documentTags
         keyboardController: keyboardController
 
-      document_list_controller(els.documentListTitle, els.documentList, els.documentCursor, @state, keyboardController)
+      document_list_controller(els.documentListTitle, els.documentList, els.document, @state, keyboardController)
 
       new ViewAppController
         el: els.view

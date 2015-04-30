@@ -12,14 +12,20 @@ define [
       state: options.state
       el: options.tagSelectEl
 
-    tagThisView = new TagThisView
+    documentListTagsView = new TagThisView
       tags: options.tags
       state: options.state
       keyboardController: options.keyboardController
-      el: options.tagThisEl
+      el: options.documentListTagsEl
+      tagTarget: 'list'
+
+    documentTagsView = new TagThisView
+      tags: options.tags
+      state: options.state
+      keyboardController: options.keyboardController
+      el: options.documentTagsEl
+      tagTarget: 'document'
 
     tagSelectView.on('organize-clicked', openTagDialog)
-    tagThisView.on('organize-clicked', openTagDialog)
-
-    tagSelectView: tagSelectView
-    tagThisView: tagThisView
+    documentListTagsView.on('organize-clicked', openTagDialog)
+    documentTagsView.on('organize-clicked', openTagDialog)

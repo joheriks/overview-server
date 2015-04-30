@@ -87,15 +87,20 @@ define [
     initialize: (options) ->
       throw 'Must pass options.state, a State' if !options.state
       throw 'Must pass options.tags, a Tags' if !options.tags
+      throw 'Must pass options.tagTarget, either "list" or "document"' if !options.tagTarget
 
       @tags = options.tags
       @state = options.state
       @documentList = null
       @keyboardController = options.keyboardController # optional
+      @tagTarget = options.tagTarget
 
       if @keyboardController?
-        @keyBindings =
-          T: => @toggle()
+        @keyBindings = {}
+        if @tagTarget == 'list'
+          @keyBindings.Y = => @toggle()
+        else
+          @keyBindings.T = => @toggle()
         @keyboardController.register(@keyBindings)
 
       @_clear = @clear.bind(@)
@@ -246,8 +251,14 @@ define [
         @_renderTagStatus(@tags.get(cid))
       undefined
 
+    _getTaggable: ->
+      if @tagTarget == 'list'
+        @state.get('documentList')
+      else
+        @state.get('document')
+
     _getTagStatus: (tag) ->
-      taggable = @state.getCurrentTaggable()
+      taggable = @_getTaggable()
 
       if taggable.getTagCount? # it's a DocumentList
         count = @documentList.getTagCount(tag)
@@ -340,7 +351,7 @@ define [
 
       if $li.hasClass('create')
         tag = @tags.create(name: $li.attr('data-name'))
-        @state.getCurrentTaggable()?.tag(tag)
+        @_getTaggable()?.tag(tag)
         @clear()
         @show()
       else
