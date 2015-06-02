@@ -5,7 +5,7 @@ import controllers.auth.Authorities.anyUser
 
 object BlogHeaderController extends Controller {
   def show() = OptionallyAuthorizedAction(anyUser) { implicit request =>
-    Ok(views.html.components.navbar(None, None))
+    Ok(views.html.BlogHeader.show(None, None))
   }
 }
 

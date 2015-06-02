@@ -1,0 +1,10 @@
+@(
+  optionalUser: Option[User],
+  optionalDocumentSet: Option[org.overviewproject.models.DocumentSet]=None
+)(implicit lang: Lang, flash: Flash, request: RequestHeader)
+
+@defining(scopedMessages("views.BlogHeader.show")) { m =>
+  @main(optionalUser=None, title=m("title"), bodyClass="blog-show", javascripts=play.twirl.api.Html("")) {
+
+  }
+}
