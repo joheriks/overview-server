@@ -10,7 +10,7 @@ import scala.language.postfixOps
 import scala.concurrent.{Await,Future,Promise,blocking}
 import scala.concurrent.duration._
 import akka.actor._
-import org.overviewproject.database.Database
+import org.overviewproject.database.DeprecatedDatabase
 import org.overviewproject.documentcloud.{Document => RetrievedDocument, _ }
 import org.overviewproject.documentcloud.ImporterProtocol._
 import org.overviewproject.persistence._
@@ -127,7 +127,7 @@ class DocumentCloudDocumentProducer(job: PersistentDocumentSetCreationJob, query
         importer ! StartImport()
         result = Await.result(importResult.future, Duration.Inf)
         logger.info("Failed to retrieve " + result.failedRetrievals.length + " documents")
-        Database.inTransaction {
+        DeprecatedDatabase.inTransaction {
           DocRetrievalErrorWriter.write(documentSetId, result.failedRetrievals)
         }
       } catch {
