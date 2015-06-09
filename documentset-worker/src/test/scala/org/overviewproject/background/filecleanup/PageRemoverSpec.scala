@@ -26,19 +26,19 @@ class PageRemoverSpec extends DbSpecification with Mockito with NoTimeConversion
 
       Await.result(r, 10 millis) must throwA[TimeoutException]
 
-      import org.overviewproject.database.Slick.simple._
+      import databaseApi._
 
-      Pages.filter(_.fileId === file.id).firstOption must beSome
+      blockingDatabase.length(Pages.filter(_.fileId === file.id)) must beEqualTo(numberOfPages)
 
       blobsDeleted.success(())
       await(r)
 
-      Pages.filter(_.fileId === file.id).firstOption must beNone
+      blockingDatabase.length(Pages.filter(_.fileId === file.id)) must beEqualTo(0)
     }
   }
 
   trait PageScope extends DbScope {
-    val numberOfPages = 10
+    val numberOfPages = 3
     val file = factory.file(referenceCount = 0)
     val pages = Seq.tabulate(numberOfPages)(n =>
       factory.page(fileId = file.id, pageNumber = n + 1, dataLocation = s"test:$n"))
