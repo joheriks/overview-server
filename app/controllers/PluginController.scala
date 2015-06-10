@@ -2,7 +2,6 @@ package controllers
 
 import java.util.UUID
 import play.api.libs.concurrent.Execution.Implicits._
-import play.api.mvc.Action
 import scala.concurrent.Future
 
 import controllers.auth.AuthorizedAction
