@@ -17,6 +17,7 @@ DELETE /api-tokens/:token controllers.ApiTokenController.destroy(token: String)
 GET    /confirm/prompt/:email controllers.ConfirmationController.index(email)
 GET    /confirm/:token        controllers.ConfirmationController.show(token)
 
+GET    /account controllers.UserController.show()
 GET    /register controllers.UserController.new_()
 POST   /register controllers.UserController.create()
 

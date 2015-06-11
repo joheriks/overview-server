@@ -1,0 +1,30 @@
+@(
+  user: User
+)(implicit lang: Lang, flash: Flash, request: RequestHeader)
+
+@javascripts = {
+  @requireJsBundle("User/show")
+}
+
+@defining(scopedMessages("views.User.show")) { m =>
+  @main(optionalUser=Option(user), title=m("title"), bodyClass="user-show", javascripts=javascripts) {
+
+    <article>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+          </div>
+          <div class="col-md-6">
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <footer>
+      <div class="container-fluid">
+        <div class="row">
+        </div>
+      </div>
+    </footer>
+  }
+}

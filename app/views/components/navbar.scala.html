@@ -31,7 +31,7 @@
     </ul>
     @optionalDocumentSet match {
       case Some(documentSet) => {
-        <div class="dropdown">
+        <div class="dropdown navbar-right">
           <div class="dropdown-toggle" data-toggle="dropdown"><h2><a href="#">@documentSet.title <i class="icon icon-bars"></i></a></h2></div>
           <ul class="dropdown-menu dropdown-menu-right" role="menu">
             <li class="dropdown-header">@m("header.documentSet")</li>
@@ -56,6 +56,7 @@
               <li class="divider"></li>
               <li class="dropdown-header">@user.email</li>
               <li><a href="@routes.DocumentSetController.index()"><i class="icon icon-home"></i> @m("link_document_sets")</a></li>
+              <li><a href="@routes.UserController.show()"><i class="icon icon-user"></i> @m("link_user_account")</a></li>
               <li><a href="@routes.SessionController.delete()"><i class="icon icon-sign-out"></i> @m("link_logout")</a></li>
             }
           </ul>
@@ -64,7 +65,7 @@
       case None => {
         @if(Play.current.configuration.getBoolean("overview.multi_user").getOrElse(true)) {
           @optionalUser.map { user =>
-            <div class="logged-in">
+            <div class="logged-in navbar-right">
               <div class="navbar-text">@(Html(HtmlFormat.escape(m("logged_in", "EMAIL")).toString.replace("EMAIL", "<strong>" + HtmlFormat.escape(user.email).toString + "</strong>")))</div>
               <ul class="nav navbar-nav">
                 @if(user.isAdministrator) {
@@ -78,6 +79,7 @@
                   </li>
                 }
                 <li><a href="@routes.DocumentSetController.index()"><i class="icon icon-home"></i> @m("link_document_sets")</a></li>
+                <li><a href="@routes.UserController.show()"><i class="icon icon-user"></i> @m("link_user_account")</a></li>
                 <li><a href="@routes.SessionController.delete()"><i class="icon icon-sign-out"></i> @m("link_logout")</a></li>
               </ul>
             </div>

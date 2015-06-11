@@ -1,9 +1,15 @@
 package controllers
 
+import controllers.auth.AuthorizedAction
+import controllers.auth.Authorities.anyUser
 import org.squeryl.SquerylSQLException
 import play.api.data.Form
 import play.api.mvc.RequestHeader
 
+import play.api.libs.concurrent.Execution.Implicits._
+import scala.concurrent.Future
+
+import controllers.backend.UserBackend
 import controllers.util.TransactionAction
 import models.{ OverviewUser, ConfirmationRequest, PotentialNewUser }
 import models.orm.stores.UserStore
@@ -29,6 +35,13 @@ trait UserController extends Controller {
         )
       })
   }
+
+  /**
+   *
+   */
+  def show() = AuthorizedAction(anyUser)({ implicit request =>
+    Ok(views.html.User.show(request.user))
+  })
 
   /** Sends an email to an existing user saying someone tried to log in. */
   protected def mailExistingUser(user: OverviewUser)(implicit request: RequestHeader): Unit
@@ -77,9 +90,13 @@ trait UserController extends Controller {
   private def handleExistingUser(user: OverviewUser)(implicit request: RequestHeader): Unit = {
     mailExistingUser(user)
   }
+
+  protected val backend: UserBackend
 }
 
 object UserController extends UserController {
+  override protected val backend = UserBackend
+
   override protected def saveUser(user: OverviewUser with ConfirmationRequest): OverviewUser with ConfirmationRequest = {
     val savedUser = OverviewUser(UserStore.insertOrUpdate(user.toUser))
     savedUser.withConfirmationRequest.getOrElse(throw new Exception("impossible"))
