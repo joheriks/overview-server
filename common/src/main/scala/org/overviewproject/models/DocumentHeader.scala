@@ -20,4 +20,22 @@ trait DocumentHeader {
   val text: String
 
   def viewUrl: Option[String] = url
+
+  def folderPath: Option[String] = {
+    val pathDelimiterIndex = this.title.lastIndexOf("/")
+    if(pathDelimiterIndex != -1) {
+      Some(("/" + this.title).splitAt(pathDelimiterIndex + 1)._1)
+    } else {
+      None
+    }
+  }
+
+  def titleProper: String = {
+    val pathDelimiterIndex = this.title.lastIndexOf("/")
+    if(pathDelimiterIndex != -1) {
+      this.title.splitAt(pathDelimiterIndex + 1)._2
+    } else {
+      this.title
+    }
+  }
 }

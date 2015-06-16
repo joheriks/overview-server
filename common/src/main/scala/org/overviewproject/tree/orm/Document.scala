@@ -22,6 +22,16 @@ case class Document(
   // https://www.assembla.com/spaces/squeryl/tickets/68-add-support-for-full-updates-on-immutable-case-classes#/followers/ticket:68
   override def isPersisted(): Boolean = (id > 0)
 
+  private val pathDelimiterIndex = this.title.getOrElse("").lastIndexOf("/")
+
+  val (folderPath: Option[String], titleProper:Option[String]) = if(pathDelimiterIndex != -1) {
+    ("/" + this.title.get).splitAt(pathDelimiterIndex + 1) match {
+      case (a, b) => (Some(a), Some(b.drop(1)))
+    }
+  } else {
+    (None, this.title)
+  }
+
   def toDocumentInfo = DocumentInfo(
     id=id,
     documentSetId=documentSetId,
