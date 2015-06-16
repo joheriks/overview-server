@@ -1,7 +1,7 @@
 package views.json.DocumentList
 
 import java.util.UUID
-import play.api.libs.json.{JsValue,Json}
+import play.api.libs.json.{JsValue,Json,JsString,JsNull}
 
 import models.pagination.Page
 import org.overviewproject.models.DocumentHeader
@@ -12,6 +12,8 @@ object show {
       "id" -> document.id,
       "description" -> document.keywords,
       "title" -> document.title,
+      "title_proper" -> document.titleProper,
+      "folder_path" -> document.folderPath.map(JsString(_)).getOrElse(null),
       "page_number" -> document.pageNumber,
       "url" -> document.viewUrl,
       "nodeids" -> nodeIds,

@@ -1,6 +1,6 @@
 package views.json.api.Document
 
-import play.api.libs.json.{JsArray,JsNumber,JsObject,JsString,JsValue}
+import play.api.libs.json._
 import scala.collection.mutable.Buffer
 
 import org.overviewproject.models.Document
@@ -10,6 +10,8 @@ object show {
     val buf = Buffer[(String,JsValue)](
       "id" -> JsNumber(document.id),
       "title" -> JsString(document.title),
+      "title_proper" -> JsString(document.titleProper),
+      "folder_path" -> document.folderPath.map(JsString(_)).getOrElse(JsNull),
       "keywords" -> JsArray(document.keywords.map(JsString(_))),
       "text" -> JsString(document.text)
     )
