@@ -32,6 +32,7 @@ define [
 
       id: json.id
       title: json.title
+      title_proper: json.title_proper
       description: json.description
       pageNumber: json.page_number || null
       url: json.url || null
